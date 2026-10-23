@@ -1,0 +1,36 @@
+<header class="app-header">
+  <div class="container header-content">
+    <div class="brand">
+      <div class="brand-badge">📦</div>
+      <div>
+        <h1>InventoryHub</h1>
+        <p>Enterprise Catalog & Real-Time Stock Management</p>
+      </div>
+    </div>
+    <div class="status-indicator">
+      <span class="dot-online"></span>
+      <span>API v1.0 Connected</span>
+    </div>
+  </div>
+</header>
+
+<main class="container main-content">
+  <app-product-form
+    *ngIf="showForm"
+    [productToEdit]="selectedProduct"
+    (saved)="onSaved()"
+    (cancelled)="onCancelled()"
+  ></app-product-form>
+
+  <app-product-list
+    (add)="openNewForm()"
+    (edit)="openEditForm($event)"
+  ></app-product-list>
+</main>
+
+<footer class="app-footer">
+  <div class="container footer-content">
+    <span>InventoryHub &bull; Modern Fullstack Architecture</span>
+    <span class="tech-tag">Angular 17 Standalone &bull; Reactive Forms &bull; RxJS</span>
+  </div>
+</footer>

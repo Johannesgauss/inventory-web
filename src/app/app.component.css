@@ -1,0 +1,84 @@
+.app-header {
+  background: #0f172a;
+  color: #ffffff;
+  border-bottom: 3px solid var(--primary);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-badge {
+  font-size: 1.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+}
+
+.brand h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.brand p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 0.15rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dot-online {
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.main-content {
+  min-height: calc(100vh - 170px);
+}
+
+.app-footer {
+  background: #ffffff;
+  border-top: 1px solid var(--gray-200);
+  padding: 1.25rem 0;
+  font-size: 0.8rem;
+  color: var(--gray-600);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-tag {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--gray-400);
+}
