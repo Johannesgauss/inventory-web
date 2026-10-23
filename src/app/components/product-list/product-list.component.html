@@ -1,0 +1,121 @@
+<!-- Metrics Bar -->
+<div class="metrics-grid">
+  <div class="metric-card">
+    <span class="metric-label">Total SKUs</span>
+    <span class="metric-value">{{ products.length }}</span>
+  </div>
+  <div class="metric-card">
+    <span class="metric-label">Low/Out Stock Alerts</span>
+    <span class="metric-value" [class.text-danger]="lowStockCount > 0">{{ lowStockCount }}</span>
+  </div>
+  <div class="metric-card">
+    <span class="metric-label">Total Portfolio Value</span>
+    <span class="metric-value text-primary">{{ totalInventoryValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+  </div>
+</div>
+
+<div class="card-list">
+  <!-- Alerts -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    ✅ {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    ⚠️ {{ errorMessage }}
+  </div>
+
+  <!-- Filters & Actions -->
+  <div class="list-controls">
+    <div class="filters-group">
+      <input
+        type="text"
+        placeholder="Filter by name, SKU or description..."
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        class="input-search"
+      />
+      <select [(ngModel)]="selectedCategory" (change)="onCategoryChange()" class="select-category">
+        <option *ngFor="let cat of categories" [value]="cat">
+          {{ cat === 'ALL' ? 'All Categories' : cat }}
+        </option>
+      </select>
+      <button class="btn btn-search" (click)="onSearch()">Search</button>
+      <button *ngIf="searchQuery || selectedCategory !== 'ALL'" class="btn btn-clear" (click)="onClearSearch()">Reset</button>
+    </div>
+
+    <button class="btn btn-add" (click)="add.emit()">
+      + New Product
+    </button>
+  </div>
+
+  <!-- Spinner -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading inventory items...</p>
+  </div>
+
+  <!-- Products Table -->
+  <div *ngIf="!loading" class="table-responsive">
+    <table class="inventory-table">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>In Stock</th>
+          <th>Status</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <td class="font-mono"><strong>{{ p.sku }}</strong></td>
+          <td>
+            <div class="product-info">
+              <span class="product-title">{{ p.name }}</span>
+              <span class="product-desc">{{ p.description || 'No description provided' }}</span>
+            </div>
+          </td>
+          <td><span class="category-tag">{{ p.category }}</span></td>
+          <td class="font-semibold">{{ p.price | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+          <td>
+            <div class="stock-control">
+              <button class="btn-stock" (click)="onAdjustStock(p, -1)" [disabled]="p.quantityInStock <= 0">-</button>
+              <span class="stock-qty">{{ p.quantityInStock }}</span>
+              <button class="btn-stock" (click)="onAdjustStock(p, 1)">+</button>
+            </div>
+          </td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-active': p.status === 'ACTIVE',
+                'badge-low-stock': p.status === 'LOW_STOCK',
+                'badge-out-of-stock': p.status === 'OUT_OF_STOCK',
+                'badge-discontinued': p.status === 'DISCONTINUED'
+              }"
+            >
+              {{ p.status }}
+            </span>
+          </td>
+          <td class="text-right">
+            <div class="action-buttons">
+              <button class="btn-icon btn-edit" title="Edit" (click)="edit.emit(p)">
+                ✏️
+              </button>
+              <button class="btn-icon btn-delete" title="Delete" (click)="onDelete(p)">
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="products.length === 0">
+          <td colspan="7" class="empty-state">
+            No products matched your search criteria.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
